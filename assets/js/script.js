@@ -1,8 +1,9 @@
-var date = 
+var todaysDate = moment().format("YYYY-MM-DD");
+
 
 function init() {
   var url =
-    "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=2023-2024&league=12&date=2024-04-02";
+    "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=2023-2024&league=12&date=" + todaysDate;
 
   fetch(url, {
     method: "GET",
@@ -13,6 +14,7 @@ function init() {
   }).then(function (response) {
     response.json().then(function (data) {
       loadNowPlaying(data);
+      console.log(data);
     });
   });
 }
@@ -24,10 +26,12 @@ function loadNowPlaying(nowData) {
     card.classList.add("card", "column", "m-2");
 
     var cardHeader = document.createElement("div");
-    cardHeader.className = "card-header";
+    // cardHeader.className = "card-header";
+    cardHeader.classList.add("card-header", "column")
 
     var cardTitle = document.createElement("h3");
-    cardTitle.className = "card-title";
+    // cardTitle.className = "card-title";
+    cardTitle.classList.add("card-title", "has-text-centered");
     cardTitle.textContent =
       nowData.response[i].teams.home.name +
       " vs " +
