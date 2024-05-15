@@ -26,38 +26,57 @@ function loadNowPlaying(nowData) {
     card.classList.add("card", "column", "m-2");
 
     var cardHeader = document.createElement("div");
-    // cardHeader.className = "card-header";
     cardHeader.classList.add("card-header", "column");
 
     var cardTitle = document.createElement("h3");
-    // cardTitle.className = "card-title";
     cardTitle.classList.add("card-header-title", "is-centered");
     cardTitle.textContent =
       nowData.response[i].teams.home.name +
       " vs " +
       nowData.response[i].teams.away.name;
-    // NBA team logos
+
+    // NBA Team Logos
     var cardImagecontainer = document.createElement("div");
     cardImagecontainer.className = "card-image";
+    cardImagecontainer.classList.add("card-image", "columns", "is-vcentered");
+
     var cardHomeImage = document.createElement("img");
+    cardHomeImage.classList.add("column");
     cardHomeImage.setAttribute("src", nowData.response[i].teams.home.logo);
     cardHomeImage.setAttribute("alt", "nba team image");
 
+    var versusFont = document.createElement("span");
+    versusFont.classList.add(
+      "column",
+      "has-text-centered",
+      "is-size-1",
+      "has-text-weight-bold"
+    );
+    versusFont.textContent = "VS";
+
     var cardAwayImage = document.createElement("img");
+    cardAwayImage.classList.add("column");
     cardAwayImage.setAttribute("src", nowData.response[i].teams.away.logo);
     cardAwayImage.setAttribute("alt", "nba team image");
 
+    // Now Playing Game Statuses and Scores
     var cardContent = document.createElement("div");
     cardContent.className = "card-content";
+
+    var gameStatus = document.createElement("p");
+    gameStatus.textContent = nowData.response[i].status.long;
+
     cardContent.textContent =
       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptate minima ducimus autem laboriosam iusto illo dolorum,maiores ullam voluptatem nihil fugiat odio nobis neque liberotempore reprehenderit explicabo pariatur veniam.";
 
     cardHeader.appendChild(cardTitle);
     cardImagecontainer.appendChild(cardHomeImage);
+    cardImagecontainer.appendChild(versusFont);
     cardImagecontainer.appendChild(cardAwayImage);
     card.appendChild(cardHeader);
     card.appendChild(cardImagecontainer);
     card.appendChild(cardContent);
+    
     document.querySelector(".now-playing-container").appendChild(card);
   }
 }

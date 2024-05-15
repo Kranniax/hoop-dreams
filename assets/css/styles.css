@@ -5,10 +5,7 @@
 .text-align {
   text-align: center;
 }
-/* .hero-text .title,
-.hero-text .subtitle {
-  text-align: center;
-} */
+
 .hero-text img {
   margin: 0 213px;
 }
@@ -17,3 +14,4 @@
   width: 750px;
   border-radius: 25px;
 }
+
