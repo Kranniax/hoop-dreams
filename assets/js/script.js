@@ -1,4 +1,5 @@
-var todaysDate = moment().format("YYYY-MM-DD");
+// var todaysDate = moment().format("YYYY-MM-DD");
+var todaysDate = "2024-05-19";
 
 function init() {
   var url =
@@ -20,6 +21,10 @@ function init() {
 }
 
 function loadNowPlaying(nowData) {
+  if (nowData.response.length == 0) {
+    document.querySelector(".now-playing-container").textContent =
+      "NO GAMES SCHEDULED";
+  }
   for (var i = 0; i < nowData.response.length; i++) {
     // create landing page for now playing cards.
     var card = document.createElement("div");
@@ -59,24 +64,38 @@ function loadNowPlaying(nowData) {
     cardAwayImage.setAttribute("src", nowData.response[i].teams.away.logo);
     cardAwayImage.setAttribute("alt", "nba team image");
 
-    // Now Playing Game Statuses and Scores
+    // Now Playing Game Status and Scores
     var cardContent = document.createElement("div");
     cardContent.className = "card-content";
 
+    // Game Status
     var gameStatus = document.createElement("p");
     gameStatus.textContent = nowData.response[i].status.long;
+    gameStatus.classList.add(
+      "has-text-centered",
+      "has-text-weight-semibold",
+      "has-text-danger"
+    );
+    cardContent.appendChild(gameStatus);
 
-    cardContent.textContent =
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptate minima ducimus autem laboriosam iusto illo dolorum,maiores ullam voluptatem nihil fugiat odio nobis neque liberotempore reprehenderit explicabo pariatur veniam.";
+    // Game Scores
+    var homeScore = document.createElement("div");
+    homeScore.textContent = nowData.response[i].scores.home.total;
+
+    var awayScore = document.createElement("div");
+    awayScore.textContent = nowData.response[i].scores.away.total;
+    cardContent.appendChild(homeScore);
+    cardContent.appendChild(awayScore);
 
     cardHeader.appendChild(cardTitle);
     cardImagecontainer.appendChild(cardHomeImage);
     cardImagecontainer.appendChild(versusFont);
     cardImagecontainer.appendChild(cardAwayImage);
+    cardImagecontainer.appendChild(cardContent);
     card.appendChild(cardHeader);
     card.appendChild(cardImagecontainer);
     card.appendChild(cardContent);
-    
+
     document.querySelector(".now-playing-container").appendChild(card);
   }
 }
