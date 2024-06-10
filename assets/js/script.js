@@ -1,7 +1,7 @@
 // var todaysDate = moment().format("YYYY-MM-DD");
 var todaysDate = "2024-05-19";
 
-function init() {
+function getNowPlaying() {
   var url =
     "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=2023-2024&league=12&date=" +
     todaysDate;
@@ -16,6 +16,25 @@ function init() {
     response.json().then(function (data) {
       loadNowPlaying(data);
       console.log(data);
+    });
+  });
+}
+
+function getNBABlogs() {
+  const url =
+    "https://nba-latest-news.p.rapidapi.com/articles?source=nba&limit=6";
+  const options = {
+    method: "GET",
+    headers: {
+      "x-rapidapi-key": "6127f14de5msh612ece9ab1405a8p1e0f35jsnd4ba0173c7d7",
+      "x-rapidapi-host": "nba-latest-news.p.rapidapi.com",
+    },
+  };
+
+  fetch(url, options).then(function (response) {
+    response.json().then(function (data) {
+      console.log(data);
+      nbaLatestNews(data);
     });
   });
 }
@@ -99,5 +118,24 @@ function loadNowPlaying(nowData) {
     document.querySelector(".now-playing-container").appendChild(card);
   }
 }
+function nbaLatestNews(newsData) {
+  for (var i = 0; i < newsData.length; i++) {
+    var articleLink = document.createElement("a");
+    articleLink.setAttribute("href", newsData[i].url);
+    articleLink.setAttribute("target", "_blank");
 
-init();
+    var nbaArticle = document.createElement("article");
+    nbaArticle.className = "column";
+
+    var articleTitle = document.createElement("h4");
+    articleTitle.innerHTML = "<strong>" + newsData[i].title + "</strong>";
+
+    
+    nbaArticle.appendChild(articleTitle);
+    articleLink.appendChild(nbaArticle);
+    document.querySelector(".blog-container").appendChild(articleLink);
+  }
+}
+
+getNowPlaying();
+getNBABlogs();
