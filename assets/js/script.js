@@ -120,20 +120,44 @@ function loadNowPlaying(nowData) {
 }
 function nbaLatestNews(newsData) {
   for (var i = 0; i < newsData.length; i++) {
-    var articleLink = document.createElement("a");
-    articleLink.setAttribute("href", newsData[i].url);
-    articleLink.setAttribute("target", "_blank");
+    var articleCard = document.createElement("div");
+    articleCard.classList.add("card", "column", "m-2", "is-4");
 
-    var nbaArticle = document.createElement("article");
-    nbaArticle.className = "column";
+    var cardContent = document.createElement("div");
+    cardContent.className = "card-content";
 
-    var articleTitle = document.createElement("h4");
-    articleTitle.innerHTML = "<strong>" + newsData[i].title + "</strong>";
+    var cardTitle = document.createElement("p");
+    cardTitle.className = "title";
+    cardTitle.textContent = newsData[i].title;
 
-    
-    nbaArticle.appendChild(articleTitle);
-    articleLink.appendChild(nbaArticle);
-    document.querySelector(".blog-container").appendChild(articleLink);
+    var cardFooter = document.createElement("footer");
+    cardFooter.className = "card-footer";
+
+    var cardFooterItem = document.createElement("p");
+    cardFooterItem.classList.add("card-footer-item");
+    cardFooterItem.innerHTML =
+      "<span> View on <a href=" +
+      newsData[i].url +
+      ">" +
+      newsData[i].source +
+      "</a></span>";
+
+    cardContent.appendChild(cardTitle);
+    cardFooter.appendChild(cardFooterItem);
+    articleCard.appendChild(cardContent);
+    articleCard.appendChild(cardFooter);
+
+    //   articleLink.setAttribute("href", newsData[i].url);
+
+    //   var nbaArticle = document.createElement("article");
+    //   nbaArticle.className = "column";
+
+    //   var articleTitle = document.createElement("h4");
+    //   articleTitle.innerHTML = "<strong>" + newsData[i].title + "</strong>";
+
+    //   nbaArticle.appendChild(articleTitle);
+    //   articleLink.appendChild(nbaArticle);
+    document.querySelector(".blog-container").appendChild(articleCard);
   }
 }
 
