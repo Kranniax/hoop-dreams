@@ -15,7 +15,7 @@ function getNowPlaying() {
   }).then(function (response) {
     response.json().then(function (data) {
       loadNowPlaying(data);
-      console.log(data);
+      // console.log(data);
     });
   });
 }
@@ -33,7 +33,7 @@ function getNBABlogs() {
 
   fetch(url, options).then(function (response) {
     response.json().then(function (data) {
-      console.log(data);
+      // console.log(data);
       nbaLatestNews(data);
     });
   });
@@ -98,11 +98,15 @@ function loadNowPlaying(nowData) {
     cardContent.appendChild(gameStatus);
 
     // Game Scores
+    
     var homeScore = document.createElement("div");
+    homeScore.classList.add("is-inline-block", "is-size-1");
     homeScore.textContent = nowData.response[i].scores.home.total;
 
     var awayScore = document.createElement("div");
+    awayScore.classList.add("is-inline-block", "is-size-1");
     awayScore.textContent = nowData.response[i].scores.away.total;
+
     cardContent.appendChild(homeScore);
     cardContent.appendChild(awayScore);
 
@@ -118,11 +122,13 @@ function loadNowPlaying(nowData) {
     document.querySelector(".now-playing-container").appendChild(card);
   }
 }
+// Latest NBA News Articles
 function nbaLatestNews(newsData) {
   for (var i = 0; i < newsData.length; i++) {
+    //News Card 
     var articleCard = document.createElement("div");
     articleCard.classList.add("card", "column", "m-2", "is-3");
-
+    // News Card Content
     var cardContent = document.createElement("div");
     cardContent.className = "card-content";
 
@@ -138,7 +144,7 @@ function nbaLatestNews(newsData) {
     cardFooterItem.innerHTML =
       "<span> View on <a href=" +
       newsData[i].url +
-      ">" +
+      " target='_blank'>" +
       newsData[i].source +
       "</a></span>";
 
@@ -147,16 +153,6 @@ function nbaLatestNews(newsData) {
     articleCard.appendChild(cardContent);
     articleCard.appendChild(cardFooter);
 
-    //   articleLink.setAttribute("href", newsData[i].url);
-
-    //   var nbaArticle = document.createElement("article");
-    //   nbaArticle.className = "column";
-
-    //   var articleTitle = document.createElement("h4");
-    //   articleTitle.innerHTML = "<strong>" + newsData[i].title + "</strong>";
-
-    //   nbaArticle.appendChild(articleTitle);
-    //   articleLink.appendChild(nbaArticle);
     document.querySelector(".blog-container").appendChild(articleCard);
   }
 }
