@@ -121,7 +121,7 @@ function loadNowPlaying(nowData) {
 function nbaLatestNews(newsData) {
   for (var i = 0; i < newsData.length; i++) {
     var articleCard = document.createElement("div");
-    articleCard.classList.add("card", "column", "m-2", "is-4");
+    articleCard.classList.add("card", "column", "m-2", "is-3");
 
     var cardContent = document.createElement("div");
     cardContent.className = "card-content";
