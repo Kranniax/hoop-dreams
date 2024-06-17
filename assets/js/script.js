@@ -43,6 +43,7 @@ function loadNowPlaying(nowData) {
   if (nowData.response.length == 0) {
     document.querySelector(".now-playing-container").textContent =
       "NO GAMES SCHEDULED";
+    return;
   }
   for (var i = 0; i < nowData.response.length; i++) {
     // create landing page for now playing cards.
@@ -98,7 +99,9 @@ function loadNowPlaying(nowData) {
     cardContent.appendChild(gameStatus);
 
     // Game Scores
-    
+    var scoreContainer = document.createElement("div");
+    scoreContainer.classList.add("is-flex", "is-justify-content-space-between");
+
     var homeScore = document.createElement("div");
     homeScore.classList.add("is-inline-block", "is-size-1");
     homeScore.textContent = nowData.response[i].scores.home.total;
@@ -107,8 +110,12 @@ function loadNowPlaying(nowData) {
     awayScore.classList.add("is-inline-block", "is-size-1");
     awayScore.textContent = nowData.response[i].scores.away.total;
 
-    cardContent.appendChild(homeScore);
-    cardContent.appendChild(awayScore);
+    scoreContainer.appendChild(homeScore);
+    scoreContainer.appendChild(awayScore);
+    cardContent.appendChild(scoreContainer);
+
+    // cardContent.appendChild(homeScore);
+    // cardContent.appendChild(awayScore);
 
     cardHeader.appendChild(cardTitle);
     cardImagecontainer.appendChild(cardHomeImage);
@@ -125,7 +132,7 @@ function loadNowPlaying(nowData) {
 // Latest NBA News Articles
 function nbaLatestNews(newsData) {
   for (var i = 0; i < newsData.length; i++) {
-    //News Card 
+    //News Card
     var articleCard = document.createElement("div");
     articleCard.classList.add("card", "column", "m-2", "is-3");
     // News Card Content
