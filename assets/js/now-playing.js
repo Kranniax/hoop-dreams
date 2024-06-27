@@ -1,6 +1,7 @@
 // var todaysDate = moment().format("LL");
 // console.log(todaysDate);
 var todaysDate = "2024-05-19";
+var fullDate = moment("2024-05-19").format("LL");
 
 var getNowPlaying = function () {
   var url =
@@ -41,7 +42,7 @@ function loadNowPlayingGames(gameData) {
     gameStatusTitle.textContent = gameData.response[i].status.long;
 
     var gameContainer = document.createElement("div");
-    gameContainer.classList.add("game-container");
+    gameContainer.classList.add("game-container", "is-flex");
 
     var awayContainer = document.createElement("article");
     awayContainer.classList.add("away-container");
@@ -53,20 +54,24 @@ function loadNowPlayingGames(gameData) {
     awayTeamContainer.classList.add("away-team-rank");
 
     var awayTeamRank = document.createElement("p");
-    awayTeamRank.classList.add("away-rank");
+    awayTeamRank.classList.add("away-rank"); // TODO: Work on Ranking system.
 
     var awayTeamName = document.createElement("p");
     awayTeamName.classList.add("away-team");
     awayTeamName.textContent = gameData.response[i].teams.away.name;
 
     var scoreContainer = document.createElement("div");
-    scoreContainer.classList.add("score-container");
+    scoreContainer.classList.add(
+      "score-container",
+      "is-flex",
+      "is-align-items-center"
+    );
 
     var awayScore = document.createElement("div");
     awayScore.classList.add("away-score");
 
     var awayScoreItem = document.createElement("p");
-    awayScoreItem.classList.add("away-score-item");
+    awayScoreItem.classList.add("away-score-item", "px-3");
     awayScoreItem.textContent = gameData.response[i].scores.away.total;
 
     var currentGameStatus = document.createElement("div");
@@ -80,7 +85,7 @@ function loadNowPlayingGames(gameData) {
     homeScore.classList.add("home-score");
 
     var homeScoreItem = document.createElement("p");
-    homeScoreItem.classList.add("home-score-item");
+    homeScoreItem.classList.add("home-score-item", "px-3");
     homeScoreItem.textContent = gameData.response[i].scores.home.total;
 
     var homeContainer = document.createElement("article");
@@ -93,7 +98,7 @@ function loadNowPlayingGames(gameData) {
     homeTeamContainer.classList.add("home-team-rank");
 
     var homeTeamRank = document.createElement("p");
-    homeTeamRank.classList.add("home-rank");
+    homeTeamRank.classList.add("home-rank"); // TODO: Work on Ranking system.
 
     var homeTeamName = document.createElement("p");
     homeTeamName.classList.add("home-team");
@@ -132,5 +137,5 @@ function loadNowPlayingGames(gameData) {
       .appendChild(currentGameContainer);
   }
 }
-document.querySelector("p.title").textContent = todaysDate;
+document.querySelector("p.title").textContent = fullDate;
 getNowPlaying();
