@@ -1,7 +1,7 @@
 // var todaysDate = moment().format("LL");
 // console.log(todaysDate);
 var todaysDate = "2024-05-19";
-var fullDate = moment("2024-05-19").format("LL");
+var fullDate = moment("2024-05-19").format("dddd Do MMM YYYY");
 
 var getNowPlaying = function () {
   var url =
@@ -48,6 +48,7 @@ function loadNowPlayingGames(gameData) {
     awayContainer.classList.add("away-container");
 
     var awayImage = document.createElement("img");
+    awayImage.setAttribute("style", "height:auto; max-width:100%;");
     awayImage.setAttribute("src", gameData.response[i].teams.away.logo);
 
     var awayTeamContainer = document.createElement("div");
@@ -92,6 +93,7 @@ function loadNowPlayingGames(gameData) {
     homeContainer.classList.add("home-container");
 
     var homeImage = document.createElement("img");
+    homeImage.setAttribute("style", "height:auto; max-width:100%;");
     homeImage.setAttribute("src", gameData.response[i].teams.home.logo);
 
     var homeTeamContainer = document.createElement("div");
