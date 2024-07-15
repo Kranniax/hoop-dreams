@@ -22,23 +22,23 @@ var getNowPlaying = function () {
   });
 };
 
-var getTeamRanking = function (teamID) {
-  var url =
-    "https://api-basketball.p.rapidapi.com/standings?league=12&team=" +
-    teamID +
-    "&season=2023-2024";
-  fetch(url, {
-    method: "GET",
-    headers: {
-      "X-RapidAPI-Key": "6127f14de5msh612ece9ab1405a8p1e0f35jsnd4ba0173c7d7",
-      "X-RapidAPI-Host": "api-basketball.p.rapidapi.com",
-    },
-  }).then(function (response) {
-    response.json().then(function (data) {
-      return data.response[0][0].position;
-    });
-  });
-};
+// var getTeamRanking = function (teamID) {
+//   var url =
+//     "https://api-basketball.p.rapidapi.com/standings?league=12&team=" +
+//     teamID +
+//     "&season=2023-2024";
+//   fetch(url, {
+//     method: "GET",
+//     headers: {
+//       "X-RapidAPI-Key": "6127f14de5msh612ece9ab1405a8p1e0f35jsnd4ba0173c7d7",
+//       "X-RapidAPI-Host": "api-basketball.p.rapidapi.com",
+//     },
+//   }).then(function (response) {
+//     response.json().then(function (data) {
+//       return data.response[0][0].position;
+//     });
+//   });
+// };
 
 function loadNowPlayingGames(gameData) {
   if (gameData.response.length === 0) {
@@ -72,12 +72,13 @@ function loadNowPlayingGames(gameData) {
     var awayTeamContainer = document.createElement("div");
     awayTeamContainer.classList.add("away-team-rank");
 
+    // TODO: Work on Ranking system.
     var awayTeamRank = document.createElement("p");
     awayTeamRank.classList.add("away-rank");
-    // TODO: Work on Ranking system.
-    var awayTeamRankNumber = getTeamRanking(gameData.response[i].teams.away.id);
-    console.log(awayTeamRankNumber);
-    awayTeamRank.textContent = awayTeamRankNumber;
+
+    // var awayTeamRankNumber = getTeamRanking(gameData.response[i].teams.away.id);
+    // console.log(awayTeamRankNumber);
+    // awayTeamRank.textContent = awayTeamRankNumber;
 
     var awayTeamName = document.createElement("p");
     awayTeamName.classList.add("away-team");
@@ -121,11 +122,12 @@ function loadNowPlayingGames(gameData) {
     var homeTeamContainer = document.createElement("div");
     homeTeamContainer.classList.add("home-team-rank");
 
+    // TODO: Work on Ranking system.
     var homeTeamRank = document.createElement("p");
     homeTeamRank.classList.add("home-rank");
-    // TODO: Work on Ranking system.
-    var homeTeamRankNumber = getTeamRanking(gameData.response[i].teams.home.id);
-    homeTeamRank.textContent = homeTeamRankNumber;
+  
+    // var homeTeamRankNumber = getTeamRanking(gameData.response[i].teams.home.id);
+    // homeTeamRank.textContent = homeTeamRankNumber;
 
     var homeTeamName = document.createElement("p");
     homeTeamName.classList.add("home-team");
