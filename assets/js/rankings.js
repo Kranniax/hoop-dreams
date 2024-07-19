@@ -34,7 +34,29 @@ function getWesternRanks() {
 }
 
 function createEasternTables(easternData) {
-    
+  var table = document.createElement("table");
+  table.className = "table";
+  var thead = document.createElement("thead");
+  var tr = document.createElement("tr");
+
+  // Table Headings
+  var rank = document.createElement("th");
+  rank.innerHTML = "<abbr title ='Rank'>Rank</abbr>";
+  var team = document.createElement("th");
+  team.textContent = "Team";
+  var wins = document.createElement("th");
+  wins.innerHTML = "<abbr title ='wins'>W</abbr>";
+  var loss = document.createElement("th");
+  loss.innerHTML = "<abbr title ='loss'>L</abbr>";
+  var winPercentage = document.createElement("th");
+  winPercentage.innerHTML = "<abbr title ='Win Percentage'>WIN%</abbr>";
+
+  //   append all heading titles to top table row.
+  tr.appendChild(rank);
+  tr.appendChild(team);
+  tr.appendChild(wins);
+  tr.appendChild(loss);
+  tr.appendChild(winPercentage);
 }
 
 function createWesternTables(westernData) {}
