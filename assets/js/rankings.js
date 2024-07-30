@@ -111,9 +111,11 @@ function createEasternRows(data) {
   return tbody;
 }
 
+// Initiate the creation of the western standing table. 
 function createWesternTables(westernData) {
   var westernHeading = document.createElement("h3");
   westernHeading.textContent = "Western Conference";
+  
   document
     .querySelector(".western-conference-standing")
     .appendChild(westernHeading);
@@ -148,7 +150,7 @@ function createWesternTables(westernData) {
   table.appendChild(thead);
 
   // append table to eastern conference standing section
-  document.querySelector(".eastern-conference-standing").appendChild(table);
+  document.querySelector(".western-conference-standing").appendChild(table);
 
   // create table rows for eastern conference standings.
   var tablerow = createWesternRows(westernData);
