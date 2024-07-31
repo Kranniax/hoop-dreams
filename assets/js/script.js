@@ -1,5 +1,6 @@
 // var todaysDate = moment().format("YYYY-MM-DD");
 var todaysDate = "2024-05-19";
+var teamInput = document.querySelector(".team-input"); 
 
 function getNowPlaying() {
   var url =
@@ -163,6 +164,15 @@ function nbaLatestNews(newsData) {
     document.querySelector(".blog-container").appendChild(articleCard);
   }
 }
+
+teamInput.addEventListener("keypress", (event) => {
+  if (event.keyCode === 13) {
+    // key code of the keybord key
+    event.preventDefault();
+    // your code to Run
+    console.log(teamInput.value);
+  }
+});
 
 getNowPlaying();
 getNBABlogs();
