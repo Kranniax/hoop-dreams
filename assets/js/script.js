@@ -1,6 +1,6 @@
 // var todaysDate = moment().format("YYYY-MM-DD");
 var todaysDate = "2024-05-19";
-var teamInput = document.querySelector(".team-input"); 
+var teamInput = document.querySelector(".team-input");
 
 function getNowPlaying() {
   var url =
@@ -165,12 +165,14 @@ function nbaLatestNews(newsData) {
   }
 }
 
+
 teamInput.addEventListener("keypress", (event) => {
   if (event.keyCode === 13) {
     // key code of the keybord key
     event.preventDefault();
     // your code to Run
-    console.log(teamInput.value);
+    location.href = "./team-search.html?team=" + teamInput.value;
+    
   }
 });
 
