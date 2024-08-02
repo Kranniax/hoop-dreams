@@ -17,7 +17,7 @@ var getNowPlaying = function () {
   }).then(function (response) {
     response.json().then(function (data) {
       loadNowPlayingGames(data);
-      // console.log(data);
+      console.log(data.response);
     });
   });
 };
@@ -43,6 +43,10 @@ var getNowPlaying = function () {
 function loadNowPlayingGames(gameData) {
   if (gameData.response.length === 0) {
     // TODO: There are no games being played.
+    var noGames = document.createElement("h2");
+    noGames.textContent = "NO GAMES ARE BEING PLAYED";
+
+    document.querySelector(".now-playing-container").appendChild(noGames);
   }
 
   for (var i = 0; i < gameData.response.length; i++) {

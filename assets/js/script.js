@@ -1,10 +1,16 @@
 // var todaysDate = moment().format("YYYY-MM-DD");
 var todaysDate = "2024-05-19";
+var currentYear = moment().format("Y");
+var previousYear = moment().subtract(1, "y").format("Y");
 var teamInput = document.querySelector(".team-input");
 
 function getNowPlaying() {
   var url =
-    "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=2023-2024&league=12&date=" +
+    "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=" +
+    previousYear +
+    "-" +
+    currentYear +
+    "&league=12&date=" +
     todaysDate;
 
   fetch(url, {
@@ -165,14 +171,12 @@ function nbaLatestNews(newsData) {
   }
 }
 
-
 teamInput.addEventListener("keypress", (event) => {
   if (event.keyCode === 13) {
     // key code of the keybord key
     event.preventDefault();
     // your code to Run
     location.href = "./team-search.html?team=" + teamInput.value;
-    
   }
 });
 

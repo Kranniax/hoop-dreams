@@ -1,7 +1,3 @@
-var team = location.search;
-var teamarray = team.split("=");
-console.log(teamarray[1]);
-
 var getTeamInformation = function (teamID) {
   var url =
     "https://api-basketball.p.rapidapi.com/statistics?season=2023-2024&league=12&team=" +
@@ -16,7 +12,7 @@ var getTeamInformation = function (teamID) {
   fetch(url, options).then(function (response) {
     response.json().then(function (data) {
       // the team information is retrieved from the server side.
-      console.log(data);
+      displayTeamStatistics(data);
     });
   });
 };
@@ -41,4 +37,21 @@ var getTeamID = function (value) {
   });
 };
 
-getTeamID(teamarray[1]);
+function displayTeamStatistics(teamInfo) {
+  console.log(teamInfo);
+}
+function init() {
+  // get query paramater of searched team.
+  var team = location.search;
+  var teamArray = team.split("=");
+  var searchedTeam = teamArray[1];
+
+  // create a header for searched value.
+  var teamName = document.createElement("h2");
+  teamName.textContent = "You searched for: " + searchedTeam;
+  document.querySelector(".team-container").appendChild(teamName);
+  
+  // get team information from fetch api. 
+  getTeamID(searchedTeam);
+}
+init();
