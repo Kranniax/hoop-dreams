@@ -1,3 +1,4 @@
+var teamInput = document.querySelector(".team-input");
 function getNBABlogs() {
   const url =
     "https://nba-latest-news.p.rapidapi.com/articles?source=nba&limit=10";
@@ -51,5 +52,12 @@ function nbaLatestNews(newsData) {
     document.querySelector(".blog-cards").appendChild(articleCard);
   }
 }
-
+teamInput.addEventListener("keypress", (event) => {
+  if (event.keyCode === 13) {
+    // key code of the keybord key
+    event.preventDefault();
+    // your code to Run
+    location.href = "./team-search.html?team=" + teamInput.value;
+  }
+});
 getNBABlogs();

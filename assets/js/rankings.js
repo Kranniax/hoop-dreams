@@ -1,4 +1,4 @@
-
+var teamInput = document.querySelector(".team-input");
 // a fetch function to retrieve the eastern conference standings.
 function getEasternRanks() {
   var url =
@@ -17,7 +17,7 @@ function getEasternRanks() {
     });
   });
 }
-// a fetch function to retrieve the western conference standings. 
+// a fetch function to retrieve the western conference standings.
 function getWesternRanks() {
   var url =
     "https://api-basketball.p.rapidapi.com/standings?stage=NBA%20-%20Regular%20Season&group=Western%20Conference&league=12&season=2023-2024";
@@ -36,7 +36,7 @@ function getWesternRanks() {
     });
   });
 }
-// Initiate the creation of the eastern standing table. 
+// Initiate the creation of the eastern standing table.
 function createEasternTables(easternData) {
   var westernHeading = document.createElement("h3");
   westernHeading.textContent = "Eastern Conference";
@@ -80,7 +80,7 @@ function createEasternTables(easternData) {
   var tablerow = createEasternRows(easternData);
   table.appendChild(tablerow);
 }
-// populate to data with information retrieved from the fetch request. 
+// populate to data with information retrieved from the fetch request.
 function createEasternRows(data) {
   var tbody = document.createElement("tbody");
 
@@ -111,11 +111,11 @@ function createEasternRows(data) {
   return tbody;
 }
 
-// Initiate the creation of the western standing table. 
+// Initiate the creation of the western standing table.
 function createWesternTables(westernData) {
   var westernHeading = document.createElement("h3");
   westernHeading.textContent = "Western Conference";
-  
+
   document
     .querySelector(".western-conference-standing")
     .appendChild(westernHeading);
@@ -186,6 +186,13 @@ function createWesternRows(data) {
 
   return tbody;
 }
-
+teamInput.addEventListener("keypress", (event) => {
+  if (event.keyCode === 13) {
+    // key code of the keybord key
+    event.preventDefault();
+    // your code to Run
+    location.href = "./team-search.html?team=" + teamInput.value;
+  }
+});
 getEasternRanks();
 getWesternRanks();

@@ -2,6 +2,7 @@
 // console.log(todaysDate);
 var todaysDate = "2024-05-19";
 var fullDate = moment("2024-05-19").format("dddd Do MMM YYYY");
+var teamInput = document.querySelector(".team-input");
 
 var getNowPlaying = function () {
   var url =
@@ -21,24 +22,6 @@ var getNowPlaying = function () {
     });
   });
 };
-
-// var getTeamRanking = function (teamID) {
-//   var url =
-//     "https://api-basketball.p.rapidapi.com/standings?league=12&team=" +
-//     teamID +
-//     "&season=2023-2024";
-//   fetch(url, {
-//     method: "GET",
-//     headers: {
-//       "X-RapidAPI-Key": "6127f14de5msh612ece9ab1405a8p1e0f35jsnd4ba0173c7d7",
-//       "X-RapidAPI-Host": "api-basketball.p.rapidapi.com",
-//     },
-//   }).then(function (response) {
-//     response.json().then(function (data) {
-//       return data.response[0][0].position;
-//     });
-//   });
-// };
 
 function loadNowPlayingGames(gameData) {
   if (gameData.response.length === 0) {
@@ -129,7 +112,7 @@ function loadNowPlayingGames(gameData) {
     // TODO: Work on Ranking system.
     var homeTeamRank = document.createElement("p");
     homeTeamRank.classList.add("home-rank");
-  
+
     // var homeTeamRankNumber = getTeamRanking(gameData.response[i].teams.home.id);
     // homeTeamRank.textContent = homeTeamRankNumber;
 
@@ -170,5 +153,15 @@ function loadNowPlayingGames(gameData) {
       .appendChild(currentGameContainer);
   }
 }
+
+teamInput.addEventListener("keypress", (event) => {
+  if (event.keyCode === 13) {
+    // key code of the keybord key
+    event.preventDefault();
+    // your code to Run
+    location.href = "./team-search.html?team=" + teamInput.value;
+  }
+});
 document.querySelector("p.title").textContent = fullDate;
+
 getNowPlaying();
