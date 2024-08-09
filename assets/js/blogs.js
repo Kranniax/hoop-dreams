@@ -1,7 +1,7 @@
 var teamInput = document.querySelector(".team-input");
 function getNBABlogs() {
   const url =
-    "https://nba-latest-news.p.rapidapi.com/articles?source=nba&limit=10";
+    "https://nba-latest-news.p.rapidapi.com/articles?limit=10";
   const options = {
     method: "GET",
     headers: {
@@ -18,9 +18,16 @@ function getNBABlogs() {
   });
 }
 
+function toTitleCase(str) {
+  return str.replace("_", " ").replace(/(?:^|\s)\w/g, function (match) {
+    return match.toUpperCase();
+  });
+}
+
 // Latest NBA News Articles
 function nbaLatestNews(newsData) {
   for (var i = 0; i < newsData.length; i++) {
+    var source = toTitleCase(newsData[i].source);
     //News Card
     var articleCard = document.createElement("div");
     articleCard.classList.add("card", "column", "m-2");
@@ -41,7 +48,7 @@ function nbaLatestNews(newsData) {
       "<span> View on <a href=" +
       newsData[i].url +
       " target='_blank'>" +
-      newsData[i].source +
+      source +
       "</a></span>";
 
     cardContent.appendChild(cardTitle);

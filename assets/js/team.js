@@ -26,7 +26,7 @@ var getTeamStandings = function (teamID) {
         rank: data.response[0][0].position,
       };
       displayTeamStatistics(teamRecords);
-      dispayTeamArticles(teamRecords.name);
+      getTeamArticles(teamRecords.name);
     });
   });
 };
@@ -90,7 +90,7 @@ function displayTeamStatistics(teamInfo) {
   teamContainer.appendChild(teamCard);
 }
 
-function dispayTeamArticles(team) {
+function getTeamArticles(team) {
   var shortenTeamName = team.split(" ");
   var teamName = shortenTeamName[shortenTeamName.length - 1];
 
@@ -108,11 +108,52 @@ function dispayTeamArticles(team) {
 
   fetch(url, options).then(function (response) {
     response.json().then(function (data) {
-      console.log(data);
+      displayTeamArticles(data);
     });
   });
 }
+function toTitleCase(str) {
+  return str.replace("_", " ").replace(/(?:^|\s)\w/g, function (match) {
+    return match.toUpperCase();
+  });
+}
+function displayTeamArticles(team) {
+  // console.log(team);
 
+  for (var i = 0; i < team.length; i++) {
+    var source = toTitleCase(team[i].source);
+    var articleCard = document.createElement("div");
+    articleCard.classList.add("card", "mt-3");
+
+    var articleContent = document.createElement("div");
+    articleContent.classList.add("card-content");
+
+    var articleTitle = document.createElement("p");
+    articleTitle.classList.add("title");
+    articleTitle.textContent = team[i].title;
+
+    var articleCardFooter = document.createElement("footer");
+    articleCardFooter.classList.add("card-footer");
+
+    var cardFooterItem = document.createElement("p");
+    cardFooterItem.classList.add("card-footer-item");
+    cardFooterItem.innerHTML =
+      "<span>View on <a href=" +
+      team[i].url +
+      " target='_blank'>" +
+      source +
+      "</a></span>";
+
+    articleContent.appendChild(articleTitle);
+    articleCardFooter.appendChild(cardFooterItem);
+
+    articleCard.appendChild(articleContent);
+    articleCard.appendChild(articleCardFooter);
+
+    // console.log(articleCard);
+    document.querySelector(".blog-container").appendChild(articleCard);
+  }
+}
 function init() {
   // get query paramater of searched team.
   var team = location.search;
