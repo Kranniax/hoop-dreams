@@ -109,6 +109,8 @@ function getTeamArticles(team) {
   fetch(url, options).then(function (response) {
     response.json().then(function (data) {
       displayTeamArticles(data);
+      console.log(data);
+      
     });
   });
 }
@@ -118,8 +120,6 @@ function toTitleCase(str) {
   });
 }
 function displayTeamArticles(team) {
-  // console.log(team);
-
   for (var i = 0; i < team.length; i++) {
     var source = toTitleCase(team[i].source);
     var articleCard = document.createElement("div");

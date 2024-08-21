@@ -2,11 +2,17 @@
 // console.log(todaysDate);
 var todaysDate = "2024-05-19";
 var fullDate = moment("2024-05-19").format("dddd Do MMM YYYY");
+var currentYear = moment().format("Y");
+var previousYear = moment().subtract(1, "y").format("Y");
 var teamInput = document.querySelector(".team-input");
 
 var getNowPlaying = function () {
   var url =
-    "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=2023-2024&league=12&date=" +
+    "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=" +
+    previousYear +
+    "-" +
+    currentYear +
+    "&league=12&date=" +
     todaysDate;
 
   fetch(url, {
@@ -24,6 +30,7 @@ var getNowPlaying = function () {
 };
 
 function loadNowPlayingGames(gameData) {
+  // if no games are being played. Show a message informing the user.
   if (gameData.response.length === 0) {
     // TODO: There are no games being played.
     var noGames = document.createElement("h2");
