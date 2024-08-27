@@ -3,6 +3,7 @@ var todaysDate = "2024-05-19";
 var currentYear = moment().format("Y");
 var previousYear = moment().subtract(1, "y").format("Y");
 var teamInput = document.querySelector(".team-input");
+var modalContents = document.querySelector(".modal-card-body");
 var searchHistory = [];
 
 function getNowPlaying() {
@@ -218,23 +219,40 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-// create persistency when searching for NBA teams. 
+// Save searched team to localStorage.
 var saveSearchHistory = function (team) {
   var saveTeams = localStorage.getItem("teams")
     ? JSON.parse(localStorage.getItem("teams"))
     : [];
 
-    searchHistory = saveTeams;
-    searchHistory.push(team);
-    localStorage.setItem("teams", JSON.stringify(searchHistory));
+  searchHistory = saveTeams;
+  searchHistory.push(team);
+  localStorage.setItem("teams", JSON.stringify(searchHistory));
 };
 
-// load recently searched NBA teams. 
-var loadSearchHistory = function (){
- var recentSearch =  localStorage.getItem("teams");
- console.log(recentSearch);
-  
+var displayRecentSearch = function (recentSearchArray) {
+  for (var i = 0; i < recentSearchArray.length; i++) {
+    var recentSearchBtn = document.createElement("button");
+    recentSearchBtn.classList.add("button", "is-primary", "m-2");
+    recentSearchBtn.setAttribute("type", "button");
+    recentSearchBtn.textContent = recentSearchArray[i];
+
+    // append all recently searched teams to modal content section.
+    modalContents.appendChild(recentSearchBtn);
+  }
 };
+
+// load recently searched NBA teams.
+var loadSearchHistory = function () {
+  var recentSearch = JSON.parse(localStorage.getItem("teams"));
+  displayRecentSearch(recentSearch);
+};
+// Search for team based on recent search history.
+modalContents.addEventListener("click", function (event){
+  if (event.target.tagName === 'BUTTON'){
+    location.href = "./team-search.html?team=" + event.target.innerText;
+  }
+});
 
 // Display Searched Team Statistics and Blogs.
 teamInput.addEventListener("keypress", (event) => {
