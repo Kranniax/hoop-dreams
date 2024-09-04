@@ -1,4 +1,5 @@
 var teamInput = document.querySelector(".team-input");
+var modalContents = document.querySelector(".modal-card-body");
 function getNBABlogs() {
   const url =
     "https://nba-latest-news.p.rapidapi.com/articles?limit=10";
@@ -59,12 +60,98 @@ function nbaLatestNews(newsData) {
     document.querySelector(".blog-cards").appendChild(articleCard);
   }
 }
+// a script to trigger the modal element.
+document.addEventListener("DOMContentLoaded", () => {
+  // Functions to open and close a modal
+  function openModal($el) {
+    $el.classList.add("is-active");
+  }
+
+  function closeModal($el) {
+    $el.classList.remove("is-active");
+  }
+
+  function closeAllModals() {
+    (document.querySelectorAll(".modal") || []).forEach(($modal) => {
+      closeModal($modal);
+    });
+  }
+
+  // Add a click event on buttons to open a specific modal
+  (document.querySelectorAll(".js-modal-trigger") || []).forEach(($trigger) => {
+    const modal = $trigger.dataset.target;
+    const $target = document.getElementById(modal);
+
+    $trigger.addEventListener("click", () => {
+      openModal($target);
+    });
+  });
+
+  // Add a click event on various child elements to close the parent modal
+  (
+    document.querySelectorAll(
+      ".modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button"
+    ) || []
+  ).forEach(($close) => {
+    const $target = $close.closest(".modal");
+
+    $close.addEventListener("click", () => {
+      closeModal($target);
+    });
+  });
+
+  // Add a keyboard event to close all modals
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeAllModals();
+    }
+  });
+});
+// Save searched team to localStorage.
+var saveSearchHistory = function (team) {
+  var saveTeams = localStorage.getItem("teams")
+    ? JSON.parse(localStorage.getItem("teams"))
+    : [];
+
+  searchHistory = saveTeams;
+  searchHistory.push(team);
+  localStorage.setItem("teams", JSON.stringify(searchHistory));
+};
+
+var displayRecentSearch = function (recentSearchArray) {
+  for (var i = 0; i < recentSearchArray.length; i++) {
+    var recentSearchBtn = document.createElement("button");
+    recentSearchBtn.classList.add("button", "is-primary", "m-2");
+    recentSearchBtn.setAttribute("type", "button");
+    recentSearchBtn.textContent = recentSearchArray[i];
+
+    // append all recently searched teams to modal content section.
+    modalContents.appendChild(recentSearchBtn);
+  }
+};
+
+// load recently searched NBA teams.
+var loadSearchHistory = function () {
+  var recentSearch = JSON.parse(localStorage.getItem("teams"));
+  displayRecentSearch(recentSearch);
+};
+// Search for team based on recent search history.
+modalContents.addEventListener("click", function (event) {
+  if (event.target.tagName === "BUTTON") {
+    saveSearchHistory(event.target.innerText);
+    location.href = "./team-search.html?team=" + event.target.innerText;
+  }
+});
+
 teamInput.addEventListener("keypress", (event) => {
   if (event.keyCode === 13) {
     // key code of the keybord key
     event.preventDefault();
+    // save to localStorage
+    saveSearchHistory(teamInput.value);
     // your code to Run
     location.href = "./team-search.html?team=" + teamInput.value;
   }
 });
+loadSearchHistory();
 getNBABlogs();

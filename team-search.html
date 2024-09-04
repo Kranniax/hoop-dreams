@@ -37,7 +37,12 @@
 
             <a class="navbar-item" href="./blogs.html">Blogs</a>
 
-            <a class="navbar-item"> Recent Search History </a>
+            <a
+              class="navbar-item js-modal-trigger"
+              data-target="modal-js-example"
+            >
+              Recent Search History
+            </a>
           </div>
 
           <div class="navbar-end">
@@ -65,6 +70,24 @@
         <p class="mt-3 has-text-weight-bold is-size-4">Recent Team Articles:</p>
       </section>
     </main>
+    <!-- Modal Section  -->
+    <div id="modal-js-example" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Search History</p>
+          <!-- <button class="delete" aria-label="close"></button> -->
+        </header>
+        <section class="modal-card-body">
+          <!-- Content ... -->
+        </section>
+        <footer class="modal-card-foot">
+          <div class="buttons">
+            <button class="button">Cancel</button>
+          </div>
+        </footer>
+      </div>
+    </div>
     <script src="./assets/js/team.js"></script>
   </body>
 </html>

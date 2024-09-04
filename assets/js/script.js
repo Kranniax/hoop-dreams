@@ -172,7 +172,7 @@ function nbaLatestNews(newsData) {
     document.querySelector(".blog-container").appendChild(articleCard);
   }
 }
-
+// a script to trigger the modal element. 
 document.addEventListener("DOMContentLoaded", () => {
   // Functions to open and close a modal
   function openModal($el) {
@@ -250,6 +250,7 @@ var loadSearchHistory = function () {
 // Search for team based on recent search history.
 modalContents.addEventListener("click", function (event){
   if (event.target.tagName === 'BUTTON'){
+    saveSearchHistory(event.target.innerText);
     location.href = "./team-search.html?team=" + event.target.innerText;
   }
 });
