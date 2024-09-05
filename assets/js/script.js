@@ -172,7 +172,7 @@ function nbaLatestNews(newsData) {
     document.querySelector(".blog-container").appendChild(articleCard);
   }
 }
-// a script to trigger the modal element. 
+// a script to trigger the modal element.
 document.addEventListener("DOMContentLoaded", () => {
   // Functions to open and close a modal
   function openModal($el) {
@@ -219,15 +219,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+// limit teams array to 6 teams.
+var formatSearchHistory = function (searchHistory) {
+  if (searchHistory.length > 6) {
+    searchHistory.pop();
+  }
+
+  return searchHistory;
+};
 // Save searched team to localStorage.
 var saveSearchHistory = function (team) {
+  //  load any pre-existing items in localStorage. If there aren’t any, you create an empty array
   var saveTeams = localStorage.getItem("teams")
     ? JSON.parse(localStorage.getItem("teams"))
     : [];
 
   searchHistory = saveTeams;
   searchHistory.push(team);
-  localStorage.setItem("teams", JSON.stringify(searchHistory));
+  // reverse order of teams array. recently added teams will show first.
+  var reversedSearchHistory = searchHistory.toReversed();
+  // limit the array to 6 teams.
+  var updatedSearchHistory = formatSearchHistory(reversedSearchHistory);
+  // store teams array in localStorage.
+  localStorage.setItem("teams", JSON.stringify(updatedSearchHistory));
 };
 
 var displayRecentSearch = function (recentSearchArray) {
@@ -248,8 +262,8 @@ var loadSearchHistory = function () {
   displayRecentSearch(recentSearch);
 };
 // Search for team based on recent search history.
-modalContents.addEventListener("click", function (event){
-  if (event.target.tagName === 'BUTTON'){
+modalContents.addEventListener("click", function (event) {
+  if (event.target.tagName === "BUTTON") {
     saveSearchHistory(event.target.innerText);
     location.href = "./team-search.html?team=" + event.target.innerText;
   }

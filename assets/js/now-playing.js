@@ -207,6 +207,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+// limit teams array to 6 teams.
+var formatSearchHistory = function (searchHistory) {
+  if (searchHistory.length > 6) {
+    searchHistory.pop();
+  }
+
+  return searchHistory;
+};
 // Save searched team to localStorage.
 var saveSearchHistory = function (team) {
   var saveTeams = localStorage.getItem("teams")
@@ -215,7 +223,12 @@ var saveSearchHistory = function (team) {
 
   searchHistory = saveTeams;
   searchHistory.push(team);
-  localStorage.setItem("teams", JSON.stringify(searchHistory));
+  // reverse order of teams array. recently added teams will show first.
+  var reversedSearchHistory = searchHistory.toReversed();
+  // limit the array to 6 teams.
+  var updatedSearchHistory = formatSearchHistory(reversedSearchHistory);
+  // store teams array in localStorage.
+  localStorage.setItem("teams", JSON.stringify(updatedSearchHistory));
 };
 
 var displayRecentSearch = function (recentSearchArray) {
