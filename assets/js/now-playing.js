@@ -25,10 +25,62 @@ var getNowPlaying = function () {
   }).then(function (response) {
     response.json().then(function (data) {
       loadNowPlayingGames(data);
-      console.log(data.response);
+      // getNowPlayingIDs(data);
+      // console.log(data.response);
     });
   });
 };
+
+async function fetchRankings(id) {
+  var url =
+    "https://api-basketball.p.rapidapi.com/standings?league=12&team=" +
+    id +
+    "&season=2023-2024";
+
+  var options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "6127f14de5msh612ece9ab1405a8p1e0f35jsnd4ba0173c7d7",
+      "X-RapidAPI-Host": "api-basketball.p.rapidapi.com",
+    },
+  };
+
+  const response = await fetch(url, options);
+  const data = await response.json();
+  return data;
+}
+
+async function getNowPlayingRankings(gameIDs) {
+  const results = [];
+
+  for (const id of gameIDs) {
+    const awayData = await fetchRankings(id.away);
+    const homeData = await fetchRankings(id.home);
+
+    const combinedResult = {
+      away: awayData.response[0][0].position,
+      home: homeData.response[0][0].position,
+    };
+
+    results.push(combinedResult);
+  }
+
+  console.log(results);
+}
+
+// a function to retrieve the now playing games ID's
+function getNowPlayingIDs(gameData) {
+  var rankings = [];
+  for (var i = 0; i < gameData.response.length; i++) {
+    var gamesRankings = {
+      away: gameData.response[i].teams.away.id,
+      home: gameData.response[i].teams.home.id,
+    };
+    rankings.push(gamesRankings);
+  }
+
+  getNowPlayingRankings(rankings);
+}
 
 function loadNowPlayingGames(gameData) {
   // if no games are being played. Show a message informing the user.
