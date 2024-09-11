@@ -232,12 +232,10 @@ var saveSearchHistory = function (team) {
     : [];
 
   searchHistory = saveTeams;
-  searchHistory.push(team);
+  searchHistory.unshift(team);
 
-  // reverse order of teams array. recently added teams will show first.
-  var reversedSearchHistory = searchHistory.toReversed();
   // limit the array to 6 teams.
-  var updatedSearchHistory = formatSearchHistory(reversedSearchHistory);
+  var updatedSearchHistory = formatSearchHistory(searchHistory);
   // store teams array in localStorage.
   localStorage.setItem("teams", JSON.stringify(updatedSearchHistory));
 };
