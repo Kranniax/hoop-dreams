@@ -6,6 +6,7 @@ var teamInput = document.querySelector(".team-input");
 var modalContents = document.querySelector(".modal-card-body");
 var searchHistory = [];
 
+// a fetch api to retrieve today's now playing games.
 function getNowPlaying() {
   var url =
     "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=" +
@@ -14,21 +15,20 @@ function getNowPlaying() {
     currentYear +
     "&league=12&date=" +
     todaysDate;
-
-  fetch(url, {
+  const options = {
     method: "GET",
     headers: {
       "X-RapidAPI-Key": "6127f14de5msh612ece9ab1405a8p1e0f35jsnd4ba0173c7d7",
       "X-RapidAPI-Host": "api-basketball.p.rapidapi.com",
     },
-  }).then(function (response) {
+  };
+  fetch(url, options).then(function (response) {
     response.json().then(function (data) {
       loadNowPlaying(data);
-      // console.log(data);
     });
   });
 }
-
+// a fetch api to retrieve recent nba articles or
 function getNBABlogs() {
   const url =
     "https://nba-latest-news.p.rapidapi.com/articles?source=nba&limit=6";
@@ -42,7 +42,6 @@ function getNBABlogs() {
 
   fetch(url, options).then(function (response) {
     response.json().then(function (data) {
-      // console.log(data);
       nbaLatestNews(data);
     });
   });
@@ -119,12 +118,10 @@ function loadNowPlaying(nowData) {
     awayScore.classList.add("is-inline-block", "is-size-1");
     awayScore.textContent = nowData.response[i].scores.away.total;
 
+    // append all children to parent elements
     scoreContainer.appendChild(homeScore);
     scoreContainer.appendChild(awayScore);
     cardContent.appendChild(scoreContainer);
-
-    // cardContent.appendChild(homeScore);
-    // cardContent.appendChild(awayScore);
 
     cardHeader.appendChild(cardTitle);
     cardImagecontainer.appendChild(cardHomeImage);
@@ -236,6 +233,7 @@ var saveSearchHistory = function (team) {
 
   searchHistory = saveTeams;
   searchHistory.push(team);
+
   // reverse order of teams array. recently added teams will show first.
   var reversedSearchHistory = searchHistory.toReversed();
   // limit the array to 6 teams.
