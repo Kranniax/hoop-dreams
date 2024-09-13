@@ -31,7 +31,7 @@ var getNowPlaying = function () {
     });
   });
 };
-
+/*
 async function fetchRankings(id) {
   var url =
     "https://api-basketball.p.rapidapi.com/standings?league=12&team=" +
@@ -82,7 +82,7 @@ function getNowPlayingIDs(gameData) {
 
   getNowPlayingRankings(rankings);
 }
-
+*/
 function loadNowPlayingGames(gameData) {
   // if no games are being played. Show a message informing the user.
   if (gameData.response.length === 0) {

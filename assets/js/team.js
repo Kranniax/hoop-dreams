@@ -46,9 +46,18 @@ var getTeamID = function (value) {
   };
 
   fetch(url, options).then(function (response) {
-    response.json().then(function (data) {
-      getTeamStandings(data.response[0].id);
-    });
+    if (response.ok) {
+      response.json().then(function (data) {
+        if (data.response.length === 0) {
+          teamContainer.textContent =
+            "There is no team with this name. Please try again.";
+        }
+        getTeamStandings(data.response[0].id);
+      });
+    } else {
+      alert("Error: Incorret Team was typed.");
+    }
+   
   });
 };
 
