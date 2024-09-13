@@ -6,6 +6,7 @@ var currentYear = moment().format("Y");
 var previousYear = moment().subtract(1, "y").format("Y");
 var teamInput = document.querySelector(".team-input");
 var modalContents = document.querySelector(".modal-card-body");
+var searchHistory = [];
 
 var getNowPlaying = function () {
   var url =
@@ -274,11 +275,10 @@ var saveSearchHistory = function (team) {
     : [];
 
   searchHistory = saveTeams;
-  searchHistory.push(team);
-  // reverse order of teams array. recently added teams will show first.
-  var reversedSearchHistory = searchHistory.toReversed();
+  searchHistory.unshift(team);
+
   // limit the array to 6 teams.
-  var updatedSearchHistory = formatSearchHistory(reversedSearchHistory);
+  var updatedSearchHistory = formatSearchHistory(searchHistory);
   // store teams array in localStorage.
   localStorage.setItem("teams", JSON.stringify(updatedSearchHistory));
 };

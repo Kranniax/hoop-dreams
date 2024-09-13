@@ -1,6 +1,7 @@
 var teamContainer = document.querySelector(".team-container");
 var teamInput = document.querySelector(".team-input");
 var modalContents = document.querySelector(".modal-card-body");
+var searchHistory = [];
 var getTeamStandings = function (teamID) {
   var url =
     "https://api-basketball.p.rapidapi.com/standings?stage=NBA%20-%20Regular%20Season&league=12&team=" +
@@ -230,11 +231,10 @@ var saveSearchHistory = function (team) {
     : [];
 
   searchHistory = saveTeams;
-  searchHistory.push(team);
-  // reverse order of teams array. recently added teams will show first.
-  var reversedSearchHistory = searchHistory.toReversed();
+  searchHistory.unshift(team);
+
   // limit the array to 6 teams.
-  var updatedSearchHistory = formatSearchHistory(reversedSearchHistory);
+  var updatedSearchHistory = formatSearchHistory(searchHistory);
   // store teams array in localStorage.
   localStorage.setItem("teams", JSON.stringify(updatedSearchHistory));
 };
