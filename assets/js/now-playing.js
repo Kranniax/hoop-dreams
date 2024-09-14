@@ -1,29 +1,63 @@
 // var todaysDate = moment().format("LL");
 // console.log(todaysDate);
-var todaysDate = "2024-05-19";
-var fullDate = moment("2024-05-19").format("dddd Do MMM YYYY");
+var todaysDate = moment().format("YYYY-MM-DD");
+// var todaysDate = "2024-09-15";
+var fullDate = moment().format("dddd Do MMM YYYY");
+var currentMonth = moment().format("M");
+// var currentMonth = "9";
 var currentYear = moment().format("Y");
 var previousYear = moment().subtract(1, "y").format("Y");
+var nextYear = moment().add(1, "y").format("Y");
 var teamInput = document.querySelector(".team-input");
 var modalContents = document.querySelector(".modal-card-body");
 var searchHistory = [];
 
 var getNowPlaying = function () {
-  var url =
-    "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=" +
-    previousYear +
-    "-" +
-    currentYear +
-    "&league=12&date=" +
-    todaysDate;
+  // var url =
+  //   "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=" +
+  //   previousYear +
+  //   "-" +
+  //   currentYear +
+  //   "&league=12&date=" +
+  //   todaysDate;
+  var url = "";
+  // console.log(currentMonth);
 
-  fetch(url, {
+  if (currentMonth === "7" || currentMonth === "8" || currentMonth === "9") {
+    url =
+      "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=" +
+      currentYear +
+      "&league=13&date=" +
+      todaysDate;
+  } else if (currentMonth >= 10) {
+    // Between October and December, we use the current year and next year
+    url =
+      "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=" +
+      currentYear +
+      "-" +
+      nextYear +
+      "&league=12&date=" +
+      todaysDate;
+  } else {
+    // Between January and April, we use the previous year and the current year
+    url =
+      "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=" +
+      previousYear +
+      "-" +
+      currentYear +
+      "&league=12&date=" +
+      todaysDate;
+  }
+
+  var options = {
     method: "GET",
     headers: {
       "X-RapidAPI-Key": "6127f14de5msh612ece9ab1405a8p1e0f35jsnd4ba0173c7d7",
       "X-RapidAPI-Host": "api-basketball.p.rapidapi.com",
     },
-  }).then(function (response) {
+  };
+
+  fetch(url, options).then(function (response) {
     response.json().then(function (data) {
       loadNowPlayingGames(data);
       // getNowPlayingIDs(data);

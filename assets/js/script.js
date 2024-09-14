@@ -1,20 +1,45 @@
-// var todaysDate = moment().format("YYYY-MM-DD");
-var todaysDate = "2024-05-19";
+var todaysDate = moment().format("YYYY-MM-DD");
+// var todaysDate = "2024-10-22";
 var currentYear = moment().format("Y");
+var currentMonth = moment().format("M");
 var previousYear = moment().subtract(1, "y").format("Y");
+var nextYear = moment().add(1, "y").format("Y");
+
 var teamInput = document.querySelector(".team-input");
 var modalContents = document.querySelector(".modal-card-body");
 var searchHistory = [];
 
 // a fetch api to retrieve today's now playing games.
 function getNowPlaying() {
-  var url =
-    "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=" +
-    previousYear +
-    "-" +
-    currentYear +
-    "&league=12&date=" +
-    todaysDate;
+  var url = "";
+  // console.log(currentMonth);
+
+  if (currentMonth === "7" || currentMonth === "8" || currentMonth === "9") {
+    url =
+      "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=" +
+      currentYear +
+      "&league=13&date=" +
+      todaysDate;
+  } else if (currentMonth >= 10) {
+    // Between October and December, we use the current year and next year
+    url =
+      "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=" +
+      currentYear +
+      "-" +
+      nextYear +
+      "&league=12&date=" +
+      todaysDate;
+  } else {
+    // Between January and April, we use the previous year and the current year
+    url =
+      "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=" +
+      previousYear +
+      "-" +
+      currentYear +
+      "&league=12&date=" +
+      todaysDate;
+  }
+
   const options = {
     method: "GET",
     headers: {
@@ -25,10 +50,11 @@ function getNowPlaying() {
   fetch(url, options).then(function (response) {
     response.json().then(function (data) {
       loadNowPlaying(data);
+      console.log(data);
     });
   });
 }
-// a fetch api to retrieve recent nba articles or
+// a fetch api to retrieve recent nba articles or blogs.
 function getNBABlogs() {
   const url =
     "https://nba-latest-news.p.rapidapi.com/articles?source=nba&limit=6";
