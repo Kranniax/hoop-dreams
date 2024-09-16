@@ -30,7 +30,7 @@ function getNowPlaying() {
       "&league=12&date=" +
       todaysDate;
   } else {
-    // Between January and April, we use the previous year and the current year
+    // Between January and June, we use the previous year and the current year
     url =
       "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=" +
       previousYear +
