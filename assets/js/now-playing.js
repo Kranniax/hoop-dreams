@@ -1,10 +1,7 @@
-// var todaysDate = moment().format("LL");
-// console.log(todaysDate);
 var todaysDate = moment().format("YYYY-MM-DD");
 // var todaysDate = "2024-09-15";
 var fullDate = moment().format("dddd Do MMM YYYY");
 var currentMonth = moment().format("M");
-// var currentMonth = "9";
 var currentYear = moment().format("Y");
 var previousYear = moment().subtract(1, "y").format("Y");
 var nextYear = moment().add(1, "y").format("Y");

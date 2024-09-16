@@ -1,28 +1,79 @@
 var teamInput = document.querySelector(".team-input");
 var modalContents = document.querySelector(".modal-card-body");
+var currentMonth = moment().format("M");
+// var currentMonth = "10"
+var currentYear = moment().format("Y");
+var previousYear = moment().subtract(1, "y").format("Y");
+var nextYear = moment().add(1, "y").format("Y");
 var searchHistory = [];
 // a fetch function to retrieve the eastern conference standings.
 function getEasternRanks() {
-  var url =
-    "https://api-basketball.p.rapidapi.com/standings?stage=NBA%20-%20Regular%20Season&group=Eastern%20Conference&league=12&season=2023-2024";
+  var url = "";
 
-  fetch(url, {
+  if (currentMonth === "7" || currentMonth === "8" || currentMonth === "9") {
+    document.querySelector("main h2").textContent =
+      "WNBA " + currentYear + " REGULAR SEASON STANDINGS";
+    url =
+      "https://api-basketball.p.rapidapi.com/standings?stage=WNBA%20-%20Regular%20Season&group=Eastern%20Conference&league=13&season=" +
+      currentYear;
+  } else if (currentMonth >= 10) {
+    // Between October and December, we use the current year and next year
+    url =
+      "https://api-basketball.p.rapidapi.com/standings?stage=NBA%20-%20Regular%20Season&group=Eastern%20Conference&league=12&season=" +
+      currentYear +
+      "-" +
+      nextYear;
+  } else {
+    // Between January and April, we use the previous year and the current year
+    url =
+      "https://api-basketball.p.rapidapi.com/standings?stage=NBA%20-%20Regular%20Season&group=Eastern%20Conference&league=12&season=" +
+      previousYear +
+      "-" +
+      currentYear;
+  }
+  // var url =
+  //   "https://api-basketball.p.rapidapi.com/standings?stage=NBA%20-%20Regular%20Season&group=Eastern%20Conference&league=12&season=2023-2024";
+
+  var options = {
     method: "GET",
     headers: {
       "x-rapidapi-key": "6127f14de5msh612ece9ab1405a8p1e0f35jsnd4ba0173c7d7",
       "x-rapidapi-host": "api-basketball.p.rapidapi.com",
     },
-  }).then(function (response) {
+  };
+  fetch(url, options).then(function (response) {
     response.json().then(function (data) {
       createEasternTables(data);
-      console.log(data);
+      // console.log(data);
     });
   });
 }
 // a fetch function to retrieve the western conference standings.
 function getWesternRanks() {
-  var url =
-    "https://api-basketball.p.rapidapi.com/standings?stage=NBA%20-%20Regular%20Season&group=Western%20Conference&league=12&season=2023-2024";
+  var url = "";
+
+  if (currentMonth === "7" || currentMonth === "8" || currentMonth === "9") {
+    url =
+      "https://api-basketball.p.rapidapi.com/standings?stage=WNBA%20-%20Regular%20Season&group=Western%20Conference&league=13&season=" +
+      currentYear;
+  } else if (currentMonth >= 10) {
+    // Between October and December, we use the current year and next year
+    url =
+      "https://api-basketball.p.rapidapi.com/standings?stage=NBA%20-%20Regular%20Season&group=Western%20Conference&league=12&season=" +
+      currentYear +
+      "-" +
+      nextYear;
+  } else {
+    // Between January and April, we use the previous year and the current year
+    url =
+      "https://api-basketball.p.rapidapi.com/standings?stage=NBA%20-%20Regular%20Season&group=Western%20Conference&league=12&season=" +
+      previousYear +
+      "-" +
+      currentYear;
+  }
+
+  // var url =
+  //   "https://api-basketball.p.rapidapi.com/standings?stage=NBA%20-%20Regular%20Season&group=Western%20Conference&league=12&season=2023-2024";
   var options = {
     method: "GET",
     headers: {
@@ -34,7 +85,7 @@ function getWesternRanks() {
   fetch(url, options).then(function (response) {
     response.json().then(function (data) {
       createWesternTables(data);
-      console.log(data);
+      // console.log(data);
     });
   });
 }
