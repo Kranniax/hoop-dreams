@@ -9,10 +9,10 @@ var teamInput = document.querySelector(".team-input");
 var modalContents = document.querySelector(".modal-card-body");
 var searchHistory = [];
 
-// a fetch api to retrieve today's now playing games.
+// A fetch api to retrieve today's now playing games.
 function getNowPlaying() {
   var url = "";
-  // console.log(currentMonth);
+ 
 
   if (currentMonth === "7" || currentMonth === "8" || currentMonth === "9") {
     url =
@@ -21,7 +21,7 @@ function getNowPlaying() {
       "&league=13&date=" +
       todaysDate;
   } else if (currentMonth >= 10) {
-    // Between October and December, we use the current year and next year
+    // Between October and December, we use the current year and next year.
     url =
       "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=" +
       currentYear +
@@ -30,7 +30,7 @@ function getNowPlaying() {
       "&league=12&date=" +
       todaysDate;
   } else {
-    // Between January and June, we use the previous year and the current year
+    // Between January and June, we use the previous year and the current year.
     url =
       "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=" +
       previousYear +
@@ -54,7 +54,7 @@ function getNowPlaying() {
     });
   });
 }
-// a fetch api to retrieve recent nba articles or blogs.
+// A fetch api to retrieve recent nba articles or blogs.
 function getNBABlogs() {
   const url =
     "https://nba-latest-news.p.rapidapi.com/articles?source=nba&limit=6";
@@ -72,7 +72,7 @@ function getNBABlogs() {
     });
   });
 }
-
+// Display now playing games on main landing page.
 function loadNowPlaying(nowData) {
   if (nowData.response.length == 0) {
     document.querySelector(".now-playing-container").textContent =
@@ -80,7 +80,7 @@ function loadNowPlaying(nowData) {
     return;
   }
   for (var i = 0; i < nowData.response.length; i++) {
-    // create landing page for now playing cards.
+    // Create landing page for now playing cards.
     var card = document.createElement("div");
     card.classList.add("card", "column", "m-2");
 
@@ -144,7 +144,7 @@ function loadNowPlaying(nowData) {
     awayScore.classList.add("is-inline-block", "is-size-1");
     awayScore.textContent = nowData.response[i].scores.away.total;
 
-    // append all children to parent elements
+    // Append all children to parent elements
     scoreContainer.appendChild(homeScore);
     scoreContainer.appendChild(awayScore);
     cardContent.appendChild(scoreContainer);
@@ -195,7 +195,7 @@ function nbaLatestNews(newsData) {
     document.querySelector(".blog-container").appendChild(articleCard);
   }
 }
-// a script to trigger the modal element.
+// A script to trigger the modal element.
 document.addEventListener("DOMContentLoaded", () => {
   // Functions to open and close a modal
   function openModal($el) {
@@ -242,7 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-// limit teams array to 6 teams.
+// Limit teams array to 6 teams.
 var formatSearchHistory = function (searchHistory) {
   if (searchHistory.length > 6) {
     searchHistory.pop();
@@ -252,7 +252,7 @@ var formatSearchHistory = function (searchHistory) {
 };
 // Save searched team to localStorage.
 var saveSearchHistory = function (team) {
-  //  load any pre-existing items in localStorage. If there aren’t any, you create an empty array
+  //  Load any pre-existing items in localStorage. If there aren’t any, you create an empty array
   var saveTeams = localStorage.getItem("teams")
     ? JSON.parse(localStorage.getItem("teams"))
     : [];
@@ -260,9 +260,9 @@ var saveSearchHistory = function (team) {
   searchHistory = saveTeams;
   searchHistory.unshift(team);
 
-  // limit the array to 6 teams.
+  // Limit the array to 6 teams.
   var updatedSearchHistory = formatSearchHistory(searchHistory);
-  // store teams array in localStorage.
+  // Store teams array in localStorage.
   localStorage.setItem("teams", JSON.stringify(updatedSearchHistory));
 };
 
@@ -273,12 +273,12 @@ var displayRecentSearch = function (recentSearchArray) {
     recentSearchBtn.setAttribute("type", "button");
     recentSearchBtn.textContent = recentSearchArray[i];
 
-    // append all recently searched teams to modal content section.
+    // Append all recently searched teams to modal content section.
     modalContents.appendChild(recentSearchBtn);
   }
 };
 
-// load recently searched NBA teams.
+// Load recently searched NBA teams.
 var loadSearchHistory = function () {
   var recentSearch = JSON.parse(localStorage.getItem("teams"));
   displayRecentSearch(recentSearch);
