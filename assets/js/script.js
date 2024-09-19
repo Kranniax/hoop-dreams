@@ -1,5 +1,5 @@
 var todaysDate = moment().format("YYYY-MM-DD");
-var todaysDate = "2024-09-17";
+// var todaysDate = "2024-09-17";
 var currentYear = moment().format("Y");
 var currentMonth = moment().format("M");
 var previousYear = moment().subtract(1, "y").format("Y");
@@ -83,7 +83,7 @@ function loadNowPlaying(nowData) {
   for (var i = 0; i < nowData.response.length; i++) {
     // Create landing page for now playing cards.
 
-    var card = $("<div>").addClass("card column m-2");
+    var card = $("<div>").addClass("card column m-2 is-3");
 
     var cardHeader = $("<div>").addClass("card-header column");
 
@@ -97,21 +97,27 @@ function loadNowPlaying(nowData) {
 
     // NBA Team Logos
     var cardImagecontainer = $("<div>").addClass(
-      "card-image column is-vcentered"
+      "card-image columns is-vcentered"
     );
     var cardHomeImage = $("<img>")
       .addClass("column")
       .attr("src", nowData.response[i].teams.home.logo)
       .attr("alt", "nba team image")
       .css("max-width", "100%")
-      .css("max-height", "auto");
+      .css("max-height", "auto")
+      .css("object-fit", "contain");
     var versusFont = $("<span>")
-      .addClass("column has-text-centered is-size-1 has-text-weight-bold")
+      .addClass(
+        "column has-text-centered is-size-1 has-text-weight-bold is-inline-block"
+      )
       .text("VS");
     var cardAwayImage = $("<img>")
       .addClass("column")
       .attr("src", nowData.response[i].teams.away.logo)
-      .attr("alt", "nba team image");
+      .attr("alt", "nba team image")
+      .css("max-width", "100%")
+      .css("max-height", "auto")
+      .css("object-fit", "contain");
 
     // Now Playing Game Status and Scores
     var cardContent = $("<div>").addClass("card-content");
@@ -150,34 +156,27 @@ function loadNowPlaying(nowData) {
 function nbaLatestNews(newsData) {
   for (var i = 0; i < newsData.length; i++) {
     //News Card
-    var articleCard = document.createElement("div");
-    articleCard.classList.add("card", "column", "m-2", "is-3");
+    var articleCard = $("<div>").addClass("card column m-2 is-3");
+
     // News Card Content
-    var cardContent = document.createElement("div");
-    cardContent.className = "card-content";
+    var cardContent = $("<div>").addClass("card-content");
+    var cardTitle = $("<p>").addClass("title").text(newsData[i].title);
+    var cardFooter = $("<footer>").addClass("card-footer");
+    var cardFooterItem = $("<p>")
+      .addClass("card-footer-item")
+      .html(
+        "<span> View on <a href=" +
+          newsData[i].url +
+          " target='_blank'>" +
+          newsData[i].source +
+          "</a></span>"
+      );
 
-    var cardTitle = document.createElement("p");
-    cardTitle.className = "title";
-    cardTitle.textContent = newsData[i].title;
+    cardContent.append(cardTitle);
+    cardFooter.append(cardFooterItem);
+    articleCard.append(cardContent, cardFooter);
 
-    var cardFooter = document.createElement("footer");
-    cardFooter.className = "card-footer";
-
-    var cardFooterItem = document.createElement("p");
-    cardFooterItem.classList.add("card-footer-item");
-    cardFooterItem.innerHTML =
-      "<span> View on <a href=" +
-      newsData[i].url +
-      " target='_blank'>" +
-      newsData[i].source +
-      "</a></span>";
-
-    cardContent.appendChild(cardTitle);
-    cardFooter.appendChild(cardFooterItem);
-    articleCard.appendChild(cardContent);
-    articleCard.appendChild(cardFooter);
-
-    document.querySelector(".blog-container").appendChild(articleCard);
+    $(".blog-container").append(articleCard);
   }
 }
 // A script to trigger the modal element.
