@@ -1,5 +1,5 @@
 var todaysDate = moment().format("YYYY-MM-DD");
-// var todaysDate = "2024-10-22";
+var todaysDate = "2024-09-17";
 var currentYear = moment().format("Y");
 var currentMonth = moment().format("M");
 var previousYear = moment().subtract(1, "y").format("Y");
@@ -12,7 +12,6 @@ var searchHistory = [];
 // A fetch api to retrieve today's now playing games.
 function getNowPlaying() {
   var url = "";
- 
 
   if (currentMonth === "7" || currentMonth === "8" || currentMonth === "9") {
     url =
@@ -50,7 +49,6 @@ function getNowPlaying() {
   fetch(url, options).then(function (response) {
     response.json().then(function (data) {
       loadNowPlaying(data);
-      console.log(data);
     });
   });
 }
@@ -75,90 +73,77 @@ function getNBABlogs() {
 // Display now playing games on main landing page.
 function loadNowPlaying(nowData) {
   if (nowData.response.length == 0) {
-    document.querySelector(".now-playing-container").textContent =
-      "NO GAMES SCHEDULED";
+    $(".now-playing-container")
+      .text("NO GAMES SCHEDULED")
+      .addClass(
+        "is-justify-content-center has-text-danger has-text-weight-bold is-size-4"
+      );
     return;
   }
   for (var i = 0; i < nowData.response.length; i++) {
     // Create landing page for now playing cards.
-    var card = document.createElement("div");
-    card.classList.add("card", "column", "m-2");
 
-    var cardHeader = document.createElement("div");
-    cardHeader.classList.add("card-header", "column");
+    var card = $("<div>").addClass("card column m-2");
 
-    var cardTitle = document.createElement("h3");
-    cardTitle.classList.add("card-header-title", "is-centered");
-    cardTitle.textContent =
-      nowData.response[i].teams.home.name +
-      " vs " +
-      nowData.response[i].teams.away.name;
+    var cardHeader = $("<div>").addClass("card-header column");
+
+    var cardTitle = $("<h3>")
+      .addClass("card-header-title is-centered")
+      .text(
+        nowData.response[i].teams.home.name +
+          " vs " +
+          nowData.response[i].teams.away.name
+      );
 
     // NBA Team Logos
-    var cardImagecontainer = document.createElement("div");
-    cardImagecontainer.className = "card-image";
-    cardImagecontainer.classList.add("card-image", "columns", "is-vcentered");
-
-    var cardHomeImage = document.createElement("img");
-    cardHomeImage.classList.add("column");
-    cardHomeImage.setAttribute("src", nowData.response[i].teams.home.logo);
-    cardHomeImage.setAttribute("alt", "nba team image");
-
-    var versusFont = document.createElement("span");
-    versusFont.classList.add(
-      "column",
-      "has-text-centered",
-      "is-size-1",
-      "has-text-weight-bold"
+    var cardImagecontainer = $("<div>").addClass(
+      "card-image column is-vcentered"
     );
-    versusFont.textContent = "VS";
-
-    var cardAwayImage = document.createElement("img");
-    cardAwayImage.classList.add("column");
-    cardAwayImage.setAttribute("src", nowData.response[i].teams.away.logo);
-    cardAwayImage.setAttribute("alt", "nba team image");
+    var cardHomeImage = $("<img>")
+      .addClass("column")
+      .attr("src", nowData.response[i].teams.home.logo)
+      .attr("alt", "nba team image")
+      .css("max-width", "100%")
+      .css("max-height", "auto");
+    var versusFont = $("<span>")
+      .addClass("column has-text-centered is-size-1 has-text-weight-bold")
+      .text("VS");
+    var cardAwayImage = $("<img>")
+      .addClass("column")
+      .attr("src", nowData.response[i].teams.away.logo)
+      .attr("alt", "nba team image");
 
     // Now Playing Game Status and Scores
-    var cardContent = document.createElement("div");
-    cardContent.className = "card-content";
-
+    var cardContent = $("<div>").addClass("card-content");
     // Game Status
-    var gameStatus = document.createElement("p");
-    gameStatus.textContent = nowData.response[i].status.long;
-    gameStatus.classList.add(
-      "has-text-centered",
-      "has-text-weight-semibold",
-      "has-text-danger"
-    );
-    cardContent.appendChild(gameStatus);
+    var gameStatus = $("<p>")
+      .addClass("has-text-centered has-text-weight-semibold has-text-danger")
+      .text(nowData.response[i].status.long);
+    cardContent.append(gameStatus);
 
     // Game Scores
-    var scoreContainer = document.createElement("div");
-    scoreContainer.classList.add("is-flex", "is-justify-content-space-between");
-
-    var homeScore = document.createElement("div");
-    homeScore.classList.add("is-inline-block", "is-size-1");
-    homeScore.textContent = nowData.response[i].scores.home.total;
-
-    var awayScore = document.createElement("div");
-    awayScore.classList.add("is-inline-block", "is-size-1");
-    awayScore.textContent = nowData.response[i].scores.away.total;
+    var scoreContainer = $("<div>").addClass(
+      "is-flex is-justify-content-space-between"
+    );
+    var homeScore = $("<div>")
+      .addClass("is-inline-block is-size-1")
+      .text(nowData.response[i].scores.home.total);
+    var awayScore = $("<div>")
+      .addClass("is-inline-block is-size-1")
+      .text(nowData.response[i].scores.away.total);
 
     // Append all children to parent elements
-    scoreContainer.appendChild(homeScore);
-    scoreContainer.appendChild(awayScore);
-    cardContent.appendChild(scoreContainer);
-
-    cardHeader.appendChild(cardTitle);
-    cardImagecontainer.appendChild(cardHomeImage);
-    cardImagecontainer.appendChild(versusFont);
-    cardImagecontainer.appendChild(cardAwayImage);
-    cardImagecontainer.appendChild(cardContent);
-    card.appendChild(cardHeader);
-    card.appendChild(cardImagecontainer);
-    card.appendChild(cardContent);
-
-    document.querySelector(".now-playing-container").appendChild(card);
+    scoreContainer.append(homeScore, awayScore);
+    cardContent.append(scoreContainer);
+    cardHeader.append(cardTitle);
+    cardImagecontainer.append(
+      cardHomeImage,
+      versusFont,
+      cardAwayImage,
+      cardContent
+    );
+    card.append(cardHeader, cardImagecontainer, cardContent);
+    $(".now-playing-container").append(card);
   }
 }
 // Latest NBA News Articles
