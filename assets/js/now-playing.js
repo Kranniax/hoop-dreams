@@ -1,5 +1,5 @@
-// var todaysDate = moment().format("YYYY-MM-DD");
-var todaysDate = "2024-09-22";
+var todaysDate = moment().format("YYYY-MM-DD");
+// var todaysDate = "2024-09-22";
 var fullDate = moment().format("dddd Do MMM YYYY");
 var currentMonth = moment().format("M");
 var currentYear = moment().format("Y");
