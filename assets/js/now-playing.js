@@ -1,5 +1,5 @@
-var todaysDate = moment().format("YYYY-MM-DD");
-// var todaysDate = "2024-09-15";
+// var todaysDate = moment().format("YYYY-MM-DD");
+var todaysDate = "2024-09-22";
 var fullDate = moment().format("dddd Do MMM YYYY");
 var currentMonth = moment().format("M");
 var currentYear = moment().format("Y");
@@ -9,16 +9,9 @@ var teamInput = document.querySelector(".team-input");
 var modalContents = document.querySelector(".modal-card-body");
 var searchHistory = [];
 
+// Get now playing games based on the month and date of this year.
 var getNowPlaying = function () {
-  // var url =
-  //   "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=" +
-  //   previousYear +
-  //   "-" +
-  //   currentYear +
-  //   "&league=12&date=" +
-  //   todaysDate;
   var url = "";
-  // console.log(currentMonth);
 
   if (currentMonth === "7" || currentMonth === "8" || currentMonth === "9") {
     url =
@@ -36,7 +29,7 @@ var getNowPlaying = function () {
       "&league=12&date=" +
       todaysDate;
   } else {
-    // Between January and April, we use the previous year and the current year
+    // Between January and June, we use the previous year and the current year
     url =
       "https://api-basketball.p.rapidapi.com/games?timezone=America%2FNew_York&season=" +
       previousYear +
@@ -57,194 +50,114 @@ var getNowPlaying = function () {
   fetch(url, options).then(function (response) {
     response.json().then(function (data) {
       loadNowPlayingGames(data);
-      // getNowPlayingIDs(data);
-      // console.log(data.response);
     });
   });
 };
-/*
-async function fetchRankings(id) {
-  var url =
-    "https://api-basketball.p.rapidapi.com/standings?league=12&team=" +
-    id +
-    "&season=2023-2024";
-
-  var options = {
-    method: "GET",
-    headers: {
-      "X-RapidAPI-Key": "6127f14de5msh612ece9ab1405a8p1e0f35jsnd4ba0173c7d7",
-      "X-RapidAPI-Host": "api-basketball.p.rapidapi.com",
-    },
-  };
-
-  const response = await fetch(url, options);
-  const data = await response.json();
-  return data;
-}
-
-async function getNowPlayingRankings(gameIDs) {
-  const results = [];
-
-  for (const id of gameIDs) {
-    const awayData = await fetchRankings(id.away);
-    const homeData = await fetchRankings(id.home);
-
-    const combinedResult = {
-      away: awayData.response[0][0].position,
-      home: homeData.response[0][0].position,
-    };
-
-    results.push(combinedResult);
-  }
-
-  console.log(results);
-}
-
-// a function to retrieve the now playing games ID's
-function getNowPlayingIDs(gameData) {
-  var rankings = [];
-  for (var i = 0; i < gameData.response.length; i++) {
-    var gamesRankings = {
-      away: gameData.response[i].teams.away.id,
-      home: gameData.response[i].teams.home.id,
-    };
-    rankings.push(gamesRankings);
-  }
-
-  getNowPlayingRankings(rankings);
-}
-*/
+// Load games that are being played right now.
 function loadNowPlayingGames(gameData) {
   // if no games are being played. Show a message informing the user.
   if (gameData.response.length === 0) {
     // TODO: There are no games being played.
-    var noGames = document.createElement("h2");
-    noGames.textContent = "NO GAMES ARE BEING PLAYED";
+    var noGames = $("<h2>")
+      .addClass(
+        "has-text-centered has-text-danger has-text-weight-bold is-size-4"
+      )
+      .text("NO GAMES ARE BEING PLAYED TODAY");
 
-    document.querySelector(".now-playing-container").appendChild(noGames);
+    $(".now-playing-container").append(noGames);
   }
 
   for (var i = 0; i < gameData.response.length; i++) {
-    var currentGameContainer = document.createElement("div");
-    currentGameContainer.classList.add("current-game", "level");
+    // A div container element to show the different now playing matchups.
+    var currentGameContainer = $("<div>").addClass("current-game level");
 
-    var currentGameItemContainer = document.createElement("div");
-    currentGameItemContainer.classList.add("level-item", "has-text-centered");
-
-    var gameCardMatchUpContainer = document.createElement("div");
-    gameCardMatchUpContainer.classList.add("gameCardMatchUpContainer");
-
-    var gameStatusTitle = document.createElement("p");
-    gameStatusTitle.classList.add("heading");
-    gameStatusTitle.textContent = gameData.response[i].status.long;
-
-    var gameContainer = document.createElement("div");
-    gameContainer.classList.add("game-container", "is-flex");
-
-    var awayContainer = document.createElement("article");
-    awayContainer.classList.add("away-container");
-
-    var awayImage = document.createElement("img");
-    awayImage.setAttribute("style", "height:auto; max-width:100%;");
-    awayImage.setAttribute("src", gameData.response[i].teams.away.logo);
-
-    var awayTeamContainer = document.createElement("div");
-    awayTeamContainer.classList.add("away-team-rank");
-
-    // TODO: Work on Ranking system.
-    var awayTeamRank = document.createElement("p");
-    awayTeamRank.classList.add("away-rank");
-
-    // var awayTeamRankNumber = getTeamRanking(gameData.response[i].teams.away.id);
-    // console.log(awayTeamRankNumber);
-    // awayTeamRank.textContent = awayTeamRankNumber;
-
-    var awayTeamName = document.createElement("p");
-    awayTeamName.classList.add("away-team");
-    awayTeamName.textContent = gameData.response[i].teams.away.name;
-
-    var scoreContainer = document.createElement("div");
-    scoreContainer.classList.add(
-      "score-container",
-      "is-flex",
-      "is-align-items-center"
+    var currentGameItemContainer = $("<div>").addClass(
+      "level-item has-text-centered"
     );
 
-    var awayScore = document.createElement("div");
-    awayScore.classList.add("away-score");
+    var gameCardMatchUpContainer = $("<div>").addClass(
+      "gameCardMatchUpContainer"
+    );
 
-    var awayScoreItem = document.createElement("p");
-    awayScoreItem.classList.add("away-score-item", "px-3");
-    awayScoreItem.textContent = gameData.response[i].scores.away.total;
+    var gameStatusTitle = $("<p>")
+      .addClass("heading")
+      .text(gameData.response[i].status.long);
 
-    var currentGameStatus = document.createElement("div");
-    currentGameStatus.classList.add("current-game-status");
+    var gameContainer = $("<div>").addClass("game-container is-flex");
 
-    var currentGameStatusItem = document.createElement("p");
-    currentGameStatusItem.classList.add("current-game-status-item");
-    currentGameStatusItem.textContent = gameData.response[i].status.short;
+    var awayContainer = $("<article>").addClass("away-container");
 
-    var homeScore = document.createElement("div");
-    homeScore.classList.add("home-score");
+    var awayImage = $("<img>")
+      .css("height", "auto")
+      .css("max-width", "100%")
+      .css("max-height", "auto")
+      .css("object-fit", "contain")
+      .css("overflow", "hidden")
+      .css("background-size", "cover")
+      .attr("src", gameData.response[i].teams.away.logo);
 
-    var homeScoreItem = document.createElement("p");
-    homeScoreItem.classList.add("home-score-item", "px-3");
-    homeScoreItem.textContent = gameData.response[i].scores.home.total;
+    var awayTeamContainer = $("<div>").addClass("away-team-rank");
 
-    var homeContainer = document.createElement("article");
-    homeContainer.classList.add("home-container");
+    var awayTeamName = $("<p>")
+      .addClass("away-team")
+      .text(gameData.response[i].teams.away.name);
 
-    var homeImage = document.createElement("img");
-    homeImage.setAttribute("style", "height:auto; max-width:100%;");
-    homeImage.setAttribute("src", gameData.response[i].teams.home.logo);
+    var scoreContainer = $("<div>").addClass(
+      "score-container is-flex is-align-items-center"
+    );
 
-    var homeTeamContainer = document.createElement("div");
-    homeTeamContainer.classList.add("home-team-rank");
+    var awayScore = $("<div>").addClass("away-score");
 
-    // TODO: Work on Ranking system.
-    var homeTeamRank = document.createElement("p");
-    homeTeamRank.classList.add("home-rank");
+    var awayScoreItem = $("<p>")
+      .addClass("away-score-item px-3")
+      .text(gameData.response[i].scores.away.total);
 
-    // var homeTeamRankNumber = getTeamRanking(gameData.response[i].teams.home.id);
-    // homeTeamRank.textContent = homeTeamRankNumber;
+    var currentGameStatus = $("<div>").addClass("current-game-status");
 
-    var homeTeamName = document.createElement("p");
-    homeTeamName.classList.add("home-team");
-    homeTeamName.textContent = gameData.response[i].teams.home.name;
+    var currentGameStatusItem = $("<p>")
+      .addClass("current-game-status-item")
+      .text(gameData.response[i].status.short);
 
-    awayTeamContainer.appendChild(awayTeamRank);
-    awayTeamContainer.appendChild(awayTeamName);
-    awayContainer.appendChild(awayImage);
-    awayContainer.appendChild(awayTeamContainer);
+    var homeScore = $("<div>").addClass("home-score");
 
-    awayScore.appendChild(awayScoreItem);
-    currentGameStatus.appendChild(currentGameStatusItem);
-    homeScore.appendChild(homeScoreItem);
+    var homeScoreItem = $("<p>")
+      .addClass("home-score-item px-3")
+      .text(gameData.response[i].scores.home.total);
 
-    scoreContainer.appendChild(awayScore);
-    scoreContainer.appendChild(currentGameStatus);
-    scoreContainer.appendChild(homeScore);
+    var homeContainer = $("<article>").addClass("home-container");
 
-    homeTeamContainer.appendChild(homeTeamRank);
-    homeTeamContainer.appendChild(homeTeamName);
-    homeContainer.appendChild(homeImage);
-    homeContainer.appendChild(homeTeamContainer);
+    var homeImage = $("<img>")
+      .css("height", "auto")
+      .css("max-width", "100%")
+      .css("max-height", "auto")
+      .css("object-fit", "contain")
+      .css("overflow", "hidden")
+      .css("background-size", "cover")
+      .attr("src", gameData.response[i].teams.home.logo);
 
-    // Append all children to game container.
-    gameContainer.appendChild(awayContainer);
-    gameContainer.appendChild(scoreContainer);
-    gameContainer.appendChild(homeContainer);
-    // Append children elements to game match up container.
-    gameCardMatchUpContainer.appendChild(gameStatusTitle);
-    gameCardMatchUpContainer.appendChild(gameContainer);
+    var homeTeamContainer = $("<div>").addClass("home-team-rank");
 
-    currentGameItemContainer.appendChild(gameCardMatchUpContainer);
-    currentGameContainer.appendChild(currentGameItemContainer);
-    document
-      .querySelector(".now-playing-container")
-      .appendChild(currentGameContainer);
+    var homeTeamName = $("<p>")
+      .addClass("home-team")
+      .text(gameData.response[i].teams.home.name);
+
+    // Append children elements to game match up containers.
+    awayTeamContainer.append(awayTeamName);
+    awayContainer.append(awayImage, awayTeamContainer);
+    awayScore.append(awayScoreItem);
+    currentGameStatus.append(currentGameStatusItem);
+    homeScore.append(homeScoreItem);
+    scoreContainer.append(awayScore, currentGameStatus, homeScore);
+    homeTeamContainer.append(homeTeamName);
+    homeContainer.append(homeImage, homeTeamContainer);
+    gameContainer.append(awayContainer, scoreContainer, homeContainer);
+    gameCardMatchUpContainer.append(gameStatusTitle, gameContainer);
+    currentGameItemContainer.append(gameCardMatchUpContainer);
+    currentGameContainer.append(currentGameItemContainer);
+    $(".now-playing-container").append(currentGameContainer);
   }
 }
+// A script to activate the modal UI.
 document.addEventListener("DOMContentLoaded", () => {
   // Functions to open and close a modal
   function openModal($el) {
@@ -313,7 +226,7 @@ var saveSearchHistory = function (team) {
   // store teams array in localStorage.
   localStorage.setItem("teams", JSON.stringify(updatedSearchHistory));
 };
-
+// Display the recent search history in a modal UI.
 var displayRecentSearch = function (recentSearchArray) {
   for (var i = 0; i < recentSearchArray.length; i++) {
     var recentSearchBtn = document.createElement("button");
@@ -326,7 +239,7 @@ var displayRecentSearch = function (recentSearchArray) {
   }
 };
 
-// load recently searched NBA teams.
+// Load recently searched NBA teams.
 var loadSearchHistory = function () {
   var recentSearch = JSON.parse(localStorage.getItem("teams"));
 
@@ -339,7 +252,7 @@ modalContents.addEventListener("click", function (event) {
     location.href = "./team-search.html?team=" + event.target.innerText;
   }
 });
-// Get input value for team.
+// Get input value for the team.
 teamInput.addEventListener("keypress", (event) => {
   if (event.keyCode === 13) {
     // key code of the keybord key

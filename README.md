@@ -2,7 +2,7 @@
 
 ## Description
 
-A front-end application that displays Basketball Leagues, Standings, Scores and Historical Data. This website receives it data from a server side api called API-BASKETBALL.
+A front-end application that displays Basketball Leagues, Standings, Scores and Historical Data. This website receives data from a server side api called API-BASKETBALL.
 
 ![Alt text](/assets/images/Screenshot%202024-09-05%20185057.jpg)
 

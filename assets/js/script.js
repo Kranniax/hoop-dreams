@@ -105,7 +105,9 @@ function loadNowPlaying(nowData) {
       .attr("alt", "nba team image")
       .css("max-width", "100%")
       .css("max-height", "auto")
-      .css("object-fit", "contain");
+      .css("object-fit", "contain")
+      .css("overflow", "hidden")
+      .css("background-size", "cover");
     var versusFont = $("<span>")
       .addClass(
         "column has-text-centered is-size-1 has-text-weight-bold is-inline-block"
@@ -117,7 +119,9 @@ function loadNowPlaying(nowData) {
       .attr("alt", "nba team image")
       .css("max-width", "100%")
       .css("max-height", "auto")
-      .css("object-fit", "contain");
+      .css("object-fit", "contain")
+      .css("overflow", "hidden")
+      .css("background-size", "cover");
 
     // Now Playing Game Status and Scores
     var cardContent = $("<div>").addClass("card-content");
@@ -249,7 +253,7 @@ var saveSearchHistory = function (team) {
   // Store teams array in localStorage.
   localStorage.setItem("teams", JSON.stringify(updatedSearchHistory));
 };
-
+//  Display recent search history in modal UI.
 var displayRecentSearch = function (recentSearchArray) {
   for (var i = 0; i < recentSearchArray.length; i++) {
     var recentSearchBtn = document.createElement("button");
