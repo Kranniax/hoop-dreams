@@ -23,7 +23,7 @@ A front-end application that displays Basketball Leagues, Standings, Scores and 
 
 ## Project Status
 
-Project is: _in progress_
+Project is: _completed_
 
 ## Contact
 
