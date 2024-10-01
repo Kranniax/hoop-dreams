@@ -1,5 +1,5 @@
-// var todaysDate = moment().format("YYYY-MM-DD");
-var todaysDate = "2024-09-17";
+var todaysDate = moment().format("YYYY-MM-DD");
+// var todaysDate = "2024-09-17";
 var fullDate = moment().format("dddd Do MMM YYYY");
 var currentMonth = moment().format("M");
 var currentYear = moment().format("Y");
@@ -117,9 +117,6 @@ function loadNowPlayingGames(gameData) {
     var currentGameStatusItem = $("<p>")
       .addClass("current-game-status-item")
       .text(gameData.response[i].status.short);
-
-      // console.log(gameData.response[i].status.short);
-      
 
     var homeScore = $("<div>").addClass("home-score");
 
