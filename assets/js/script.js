@@ -1,5 +1,5 @@
-var todaysDate = moment().format("YYYY-MM-DD");
-// var todaysDate = "2024-09-17";
+// var todaysDate = moment().format("YYYY-MM-DD");
+var todaysDate = "2024-09-17";
 var currentYear = moment().format("Y");
 var currentMonth = moment().format("M");
 var previousYear = moment().subtract(1, "y").format("Y");
@@ -131,6 +131,10 @@ function loadNowPlaying(nowData) {
       .text(nowData.response[i].status.long);
     cardContent.append(gameStatus);
 
+    // console.log(nowData.response[i].status.long);
+    // PSEDO: If the game status is " Game Finished"
+    // Compare the away score against the home score.
+    //If the away score is greater than the home, add bold CSS. else home score has bold css.
     // Game Scores
     var scoreContainer = $("<div>").addClass(
       "is-flex is-justify-content-space-between"
@@ -142,6 +146,17 @@ function loadNowPlaying(nowData) {
       .addClass("is-inline-block is-size-1")
       .text(nowData.response[i].scores.away.total);
 
+    // Compare Game Scores.
+    if (nowData.response[i].status.long === "Game Finished") {
+      if (
+        parseInt(nowData.response[i].scores.home.total) >
+        parseInt(nowData.response[i].scores.away.total)
+      ) {
+        homeScore.addClass("has-text-weight-bold");
+      } else {
+        awayScore.addClass("has-text-weight-bold");
+      }
+    }
     // Append all children to parent elements
     scoreContainer.append(homeScore, awayScore);
     cardContent.append(scoreContainer);

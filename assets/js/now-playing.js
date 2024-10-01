@@ -1,5 +1,5 @@
-var todaysDate = moment().format("YYYY-MM-DD");
-// var todaysDate = "2024-09-22";
+// var todaysDate = moment().format("YYYY-MM-DD");
+var todaysDate = "2024-09-17";
 var fullDate = moment().format("dddd Do MMM YYYY");
 var currentMonth = moment().format("M");
 var currentYear = moment().format("Y");
@@ -118,6 +118,9 @@ function loadNowPlayingGames(gameData) {
       .addClass("current-game-status-item")
       .text(gameData.response[i].status.short);
 
+      // console.log(gameData.response[i].status.short);
+      
+
     var homeScore = $("<div>").addClass("home-score");
 
     var homeScoreItem = $("<p>")
@@ -140,6 +143,18 @@ function loadNowPlayingGames(gameData) {
     var homeTeamName = $("<p>")
       .addClass("home-team")
       .text(gameData.response[i].teams.home.name);
+
+    // Compare Game Scores.
+    if (gameData.response[i].status.short === "FT") {
+      if (
+        parseInt(gameData.response[i].scores.home.total) >
+        parseInt(gameData.response[i].scores.away.total)
+      ) {
+        homeScore.addClass("has-text-weight-bold");
+      } else {
+        awayScore.addClass("has-text-weight-bold");
+      }
+    }
 
     // Append children elements to game match up containers.
     awayTeamContainer.append(awayTeamName);
